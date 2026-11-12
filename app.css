@@ -1,0 +1,99 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f8;
+  --border: #d9dadd;
+  --text: #1f2328;
+  --muted: #6a7078;
+  --accent: #2f5ea8;
+  --accent-ink: #ffffff;
+  --danger: #8a3b3b;
+  --font: "Segoe UI", system-ui, sans-serif;
+  --math-font: "Cambria Math", "STIX Two Math", "Noto Sans Math", "Latin Modern Math", "Times New Roman", serif;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font: 13px/1.4 var(--font); color: var(--text); background: var(--bg); }
+button, input { font: inherit; color: inherit; }
+.sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+.app { height: 100%; display: flex; flex-direction: column; }
+.toolbar {
+  display: flex; align-items: center; gap: 6px; padding: 6px 8px;
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  min-height: 40px; flex-wrap: wrap;
+}
+.group { display: flex; align-items: center; gap: 2px; }
+.sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
+.spacer { flex: 1; }
+
+.tool, .action {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 28px; min-width: 28px; padding: 0 6px;
+  border: 1px solid transparent; border-radius: 4px; background: transparent; cursor: default;
+}
+.tool svg { width: 18px; height: 18px; color: var(--muted); }
+.tool:hover { background: #eceef0; }
+.tool.active svg { color: var(--accent); }
+.tool:focus-visible, .action:focus-visible, .swatch:focus-visible, input:focus-visible {
+  outline: 1px solid var(--accent); outline-offset: 1px;
+}
+
+.swatch {
+  width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--border);
+  background: var(--text); margin: 0 2px; padding: 0; cursor: default;
+}
+.swatch[data-ink="#6a7078"] { background: #6a7078; }
+.swatch.accent { background: var(--accent); }
+.swatch.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--bg); }
+
+.field input[type="range"] { width: 72px; height: 18px; accent-color: var(--accent); }
+.poly-sides-field input { width: 44px; height: 24px; padding: 0 4px; border: 1px solid var(--border); border-radius: 4px; background: var(--bg); font-size: 12px; text-align: center; }
+
+.math-panel {
+  background: var(--surface); border-bottom: 1px solid var(--border); padding: 6px 8px;
+  font-family: var(--math-font);
+}
+.math-panel[hidden] { display: none; }
+.math-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.math-row + .math-row { margin-top: 6px; }
+.zoom-readout { min-width: 46px; font-size: 12px; color: var(--muted); }
+
+.sym {
+  min-width: 28px; height: 26px; padding: 0 6px; border: 1px solid var(--border);
+  border-radius: 4px; background: var(--bg); color: var(--text); cursor: default;
+  font-family: var(--math-font); font-size: 16px;
+}
+.sym:hover { background: #eceef0; }
+.sym.template { color: var(--accent); font-size: 14px; }
+.math-entry input {
+  flex: 1; min-width: 160px; height: 28px; padding: 0 8px;
+  border: 1px solid var(--border); border-radius: 4px; background: var(--bg);
+  font-family: var(--math-font); font-size: 15px;
+}
+.calc-result { font-size: 13px; color: var(--muted); min-height: 1em; padding-left: 2px; font-family: var(--math-font); }
+.action { border-color: var(--border); background: var(--bg); }
+.action:hover { background: #eceef0; }
+
+.stage { flex: 1; position: relative; overflow: hidden; background: var(--bg); }
+#canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.overlay { position: absolute; inset: 0; pointer-events: none; transform-origin: 0 0; }
+.note-item {
+  position: absolute; pointer-events: auto; padding: 1px 2px;
+  color: var(--text); font-size: 22px; line-height: 1.2; white-space: pre;
+  background: transparent; border: 1px solid transparent; border-radius: 2px;
+  transform-origin: 0 0;
+  font-family: var(--math-font);
+}
+.note-item.selected { border-color: var(--accent); background: rgba(47,94,168,0.04); }
+.item-handle {
+  position: absolute; width: 10px; height: 10px; margin-left: -6px; margin-top: -6px;
+  background: #fff; border: 1px solid var(--accent); pointer-events: auto; cursor: move;
+  z-index: 2;
+}
+
+.status {
+  display: flex; align-items: center; gap: 6px; padding: 4px 8px;
+  border-top: 1px solid var(--border); background: var(--surface);
+  color: var(--muted); font-size: 12px;
+}
+.status-sep { color: var(--border); }
